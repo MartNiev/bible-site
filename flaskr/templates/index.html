@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" />
+		<link rel="fonts" href="{{url_for('static', filename='fonts/CrimsonText-Regular.ttf')}}" />
+		<title>Home</title>
+	</head>
+	<body>
+		<section class="backgroundContainer"></section>
+
+		<nav class="nav">
+			<a type="button">Home</a>
+			<a type="button">Verse Search</a>
+			<a type="button">Random Verse</a>
+			<a type="button">About</a>
+		</nav>
+
+		<section class="mainSection">
+			<section class="verseContainer">
+				<p class="title">Word of the Day</p>
+				<p id="verseOftheDay"></p>
+				<p id="citation"></p>
+			</section>
+
+			<section class="bibleSearch">
+				<header><p>Search for a Bible Verse</p></header>
+				<br />
+				<section class="searchInput">
+					<select name="book" id="book">
+						<option value="select">Book</option>
+					</select>
+					<select name="chapter" id="chapter">
+						<option value="select">Chapter</option>
+					</select>
+					<select name="verse" id="verse">
+						<option value="select">Verse</option>
+					</select>
+					<input type="checkbox" id="multiple" />
+					<label for="multiple">Multiple Verses</label>
+				</section>
+			</section>
+		</section>
+
+		<script src="{{url_for('static', filename='js/searchVerse.js')}}"></script>
+		<script src="{{url_for('static', filename='js/verseOftheDay.js')}}"></script>
+	</body>
+</html>
