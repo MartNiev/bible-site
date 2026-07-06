@@ -25,20 +25,26 @@
 			</section>
 
 			<section class="bibleSearch">
-				<header><p>Search for a Bible Verse</p></header>
-				<br />
-				<section class="searchInput">
-					<select name="book" id="book">
-						<option value="select">Book</option>
-					</select>
-					<select name="chapter" id="chapter">
-						<option value="select">Chapter</option>
-					</select>
-					<select name="verse" id="verse">
-						<option value="select">Verse</option>
-					</select>
-					<input type="checkbox" id="multiple" />
-					<label for="multiple">Multiple Verses</label>
+				<header class="header"><h3>Search for a Bible Verse</h3></header>
+
+				<section class="bibleSearchOptions">
+					<section class="searchInput">
+						<select name="book" id="book" class="dropdown" onchange="chapterAmount('book')">
+							<option value="select">Book</option>
+						</select>
+						<select name="chapter" id="chapter" class="dropdown" onchange="verseAmount('chapter')">
+							<option value="select">Chapter</option>
+						</select>
+						<select name="verse" id="verse" class="dropdown" onchange="handleSearch('verse')">
+							<option value="select">Verse</option>
+						</select>
+					</section>
+					<section>
+						<input type="checkbox" id="multiple" /> <label for="multiple">Multiple Verses</label>
+					</section>
+				</section>
+				<section>
+					<p id="searchResult"></p>
 				</section>
 			</section>
 		</section>

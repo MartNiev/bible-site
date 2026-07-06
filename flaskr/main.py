@@ -126,6 +126,29 @@ def getBookList():
 
     return jsonify({"sortedBooks" : data})
 
+@app.route("/api/searchLength", methods=["POST"])
+def getBookData():
+    try:
+        requestInfo = request.json
+
+        filePath = findFilePath(requestInfo)
+        data = loadJSONFile(filePath)
+
+        book = requestInfo["book"]
+        option = requestInfo["option"]
+
+        if option == "book":
+            print({"result": len(data[book])})
+            return jsonify({"AmountOfChapters": len(data[book])})
+        elif option == "chapter":
+            chapter = requestInfo["chapter"]
+            return jsonify({"AmountOfVerses": len(data[book][chapter])})
+
+        
+    except Exception as e:   
+        return jsonify({"success" : e})
+
+
 
 
 if __name__ == "__main__":
