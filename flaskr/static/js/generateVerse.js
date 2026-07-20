@@ -10,13 +10,7 @@ let generatedVerse = document.getElementById("randomVerse");
 let randomCitation = document.getElementById("randomCitation");
 
 let verseOfTheDay = JSON.parse(localStorage.getItem("verse"));
-
-function display(data) {
-	generatedVerse.textContent = `"${data.randomVerse.content}"`;
-	randomCitation.textContent = `${data.randomVerse.book} ${data.randomVerse.chapter}:${data.randomVerse.verse}`;
-}
-
-display(verseOfTheDay);
+displayVerse(verseOfTheDay.randomVerse);
 
 function displayVerse(data) {
 	generatedVerse.textContent = `"${data.content}"`;
@@ -32,7 +26,6 @@ async function randomVerse() {
 		});
 
 		let data = await res.json();
-		console.log(data);
 		displayVerse(data);
 	} catch (error) {
 		console.log("Random Verse:", error.message);
