@@ -5,48 +5,59 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" />
 		<link rel="fonts" href="{{url_for('static', filename='fonts/CrimsonText-Regular.ttf')}}" />
+		<!-- <link rel="preload" as="image" href="static/images/bg.webp" fetchpriority="high" /> -->
 		<title>Home</title>
 	</head>
 	<body>
-		<section class="backgroundContainer"></section>
+		<div class="backgroundContainer" data-bg="bg.webp"></div>
 
 		<nav class="nav">
-			<a type="button">Home</a>
-			<a type="button">Verse Search</a>
-			<a type="button">Random Verse</a>
-			<a type="button">About</a>
+			<div class="links">
+				<a href="/">Home</a>
+				<a href="#bibleSearch">Verse Search</a>
+				<a href="/generate_verse">Random Verse</a>
+				<a href="about">About</a>
+			</div>
 		</nav>
 
 		<section class="mainSection">
-			<section class="verseContainer">
+			<div class="verseContainer">
 				<p class="title">Word of the Day</p>
 				<p id="verseOftheDay"></p>
 				<p id="citation"></p>
-			</section>
+			</div>
 
-			<section class="bibleSearch">
+			<div class="bibleSearch" id="bibleSearch">
 				<header class="header"><h3>Search for a Bible Verse</h3></header>
 
-				<section class="bibleSearchOptions">
-					<section class="searchInput">
-						<select name="book" id="book" class="dropdown" onchange="chapterAmount('book')">
-							<option value="select">Book</option>
-						</select>
-						<select name="chapter" id="chapter" class="dropdown" onchange="verseAmount('chapter')">
-							<option value="select">Chapter</option>
-						</select>
-						<select name="verse" id="verse" class="dropdown" onchange="handleSearch('verse')">
-							<option value="select">Verse</option>
-						</select>
-					</section>
-					<section>
-						<input type="checkbox" id="multiple" /> <label for="multiple">Multiple Verses</label>
-					</section>
-				</section>
-				<section>
+				<div class="bibleSearchOptions">
+					<div class="searchOptions">
+						<div class="searchInput" id="searchInput">
+							<select name="book" id="book" class="dropdown" onchange="onBookChange()">
+								<option value="select">Select Book</option>
+							</select>
+							<select name="chapter" id="chapter" class="dropdown" onchange="onChapterChange()">
+								<option value="select">1</option>
+							</select>
+							<span>:</span>
+							<select name="verse" id="verse" class="dropdown" onchange="onVerseChange()">
+								<option value="select">1</option>
+							</select>
+						</div>
+					</div>
+
+					<div>
+						<input type="checkbox" id="multiple" />
+						<label for="multiple">Multiple Verses</label>
+					</div>
+
+					<button type="button" class="searchButton" onclick="handleSearch('verse')">Search</button>
+				</div>
+
+				<div class="resultSection">
 					<p id="searchResult"></p>
-				</section>
-			</section>
+				</div>
+			</div>
 		</section>
 
 		<script src="{{url_for('static', filename='js/searchVerse.js')}}"></script>

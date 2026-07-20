@@ -60,6 +60,14 @@ def devtools_config():
 def home():
     return render_template("index.html")
 
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/generate_verse")
+def generateVerse():
+    return render_template("randomVerse.html")
+
 
 @app.route("/searchVerse", methods=['POST'])
 def searchVerse():
@@ -75,8 +83,8 @@ def searchVerse():
         data = loadJSONFile(filePath)
 
 
-        if (endingVerse == "" or endingVerse == "1"):
-            return jsonify(data[book][chapter][startingVerse])
+        if (endingVerse == ""):
+            return jsonify({startingVerse: data[book][chapter][startingVerse]})
         else:
             multipleVerses = {}
 
@@ -92,11 +100,13 @@ def searchVerse():
 
 @app.route("/api/randomverse", methods=["POST"])
 def randomVerse():  
-    
-    metadata = request.json
-    verse = getRandomVerse(metadata)
+    try:
+        metadata = request.json
+        verse = getRandomVerse(metadata)
 
-    return jsonify(verse)
+        return jsonify(verse)
+    except Exception as e:
+       return jsonify({"success" : e})
 
 @app.route("/api/verseOfTheDay", methods=["POST"])
 def verseOfTheDay():
@@ -135,17 +145,16 @@ def getBookData():
         data = loadJSONFile(filePath)
 
         book = requestInfo["book"]
-        option = requestInfo["option"]
+        option = requestInfo["searchFor"]
 
-        if option == "book":
-            print({"result": len(data[book])})
+        if option == "chapter":
             return jsonify({"AmountOfChapters": len(data[book])})
-        elif option == "chapter":
+        elif option == "verse":
             chapter = requestInfo["chapter"]
             return jsonify({"AmountOfVerses": len(data[book][chapter])})
 
         
-    except Exception as e:   
+    except Exception as e:
         return jsonify({"success" : e})
 
 

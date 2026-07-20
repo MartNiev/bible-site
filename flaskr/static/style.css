@@ -1,4 +1,7 @@
 /* background #e4e0da */
+html {
+	scroll-behavior: smooth;
+}
 
 body {
 	margin: 0px;
@@ -17,15 +20,32 @@ body {
 }
 
 .nav {
-	height: 50px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	gap: 20px;
-}
+	padding: 8px;
 
-.nav button {
-	all: unset;
+	.links {
+		width: 30%;
+		height: 50px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 20px;
+		border-radius: 50px;
+		background-color: rgba(255, 255, 255, 0.897);
+
+		a {
+			all: unset;
+			cursor: pointer;
+		}
+
+		a:hover {
+			all: unset;
+			cursor: pointer;
+			background-color: rgba(206, 204, 204, 0.897);
+		}
+	}
 }
 
 .mainSection {
@@ -56,13 +76,15 @@ body {
 	font-size: 1em;
 }
 
-#verseOftheDay {
+#verseOftheDay,
+#randomVerse {
 	margin: 0px;
 	font-size: 2.1em;
 	text-align: center;
 }
 
-#citation {
+#citation,
+#randomCitation {
 	width: 100%;
 	text-align: end;
 	font-size: 1em;
@@ -94,12 +116,30 @@ body {
 	justify-content: center;
 	align-items: center;
 	gap: 8px;
+	border: 1px solid rgb(71, 71, 71);
+	padding: 10px;
+	border-radius: 15px;
 }
 
 .dropdown {
+	all: unset;
+}
+
+#book {
+	width: 115px;
+}
+
+#chapter,
+#verse,
+#endingVerse {
+	width: auto;
+}
+
+.searchButton {
 	width: 90px;
-	height: 40px;
+	height: 30px;
 	border-radius: 15px;
+	border: 1px solid rgb(71, 71, 71);
 }
 
 .bibleSearchOptions {
@@ -108,4 +148,17 @@ body {
 	justify-content: center;
 	align-items: center;
 	gap: 8px;
+}
+
+.resultSection {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 80%;
+	margin-top: 20px;
+}
+
+#searchResult {
+	white-space: pre-line;
+	font-size: 17px;
 }

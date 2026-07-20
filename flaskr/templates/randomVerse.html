@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" />
+		<link rel="fonts" href="{{url_for('static', filename='fonts/CrimsonText-Regular.ttf')}}" />
+		<!-- <link rel="preload" as="image" href="static/images/bg.webp" fetchpriority="high" /> -->
+		<title>Home</title>
+	</head>
+	<body>
+		<div class="backgroundContainer" data-bg="bg.webp"></div>
+
+		<nav class="nav">
+			<div class="links">
+				<a href="/">Home</a>
+				<a href="#bibleSearch">Verse Search</a>
+				<a href="/generate_verse">Random Verse</a>
+				<a href="about">About</a>
+			</div>
+		</nav>
+
+		<section class="mainSection">
+			<div class="verseContainer">
+				<p class="title">Give me a Random Verse</p>
+				<p id="verseOftheDay"></p>
+				<p id="citation"></p>
+				<p id="randomVerse"></p>
+				<p id="randomCitation"></p>
+			</div>
+			<button type="button" onclick="randomVerse()">Generate</button>
+		</section>
+
+		<script src="{{url_for('static', filename='js/generateVerse.js')}}"></script>
+
+		<!-- <script src="{{url_for('static', filename='js/searchVerse.js')}}"></script> -->
+		<!-- <script src="{{url_for('static', filename='js/verseOftheDay.js')}}"></script> -->
+	</body>
+</html>

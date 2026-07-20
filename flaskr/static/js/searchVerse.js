@@ -3,8 +3,17 @@ let bibleVersionInput = "NEW KING JAMES VERSION";
 // let bookInput = "Genesis";
 // let chapterInput = "1";
 // let startingVerse = "1";
-let endingVerse = "";
+// let endingVerse = "";
 let metadata = { lang: langInput, bibleVersion: bibleVersionInput };
+
+let bibleRequestInfo = {
+	lang: langInput,
+	bibleVersion: bibleVersionInput,
+	book: "",
+	chapter: "",
+	startingVerse: "",
+	endingVerse: "",
+};
 
 async function getBookInfo() {
 	try {
@@ -47,15 +56,6 @@ async function requestBookData(requestInfo) {
 	}
 }
 
-let bibleRequestInfo = {
-	lang: langInput,
-	bibleVersion: bibleVersionInput,
-	book: "",
-	chapter: "",
-	startingVerse: "",
-	endingVerse: endingVerse,
-};
-
 function createOptions(amount, container) {
 	for (let i = 1; i <= amount; i++) {
 		let option = document.createElement("option");
@@ -65,8 +65,11 @@ function createOptions(amount, container) {
 	}
 }
 
-async function chapterAmount(option) {
-	let dropdown = document.getElementById(option);
+async function onBookChange() {
+	let dropdown = document.getElementById("book");
+
+	let chapterDropdown = document.getElementById("chapter").replaceChildren();
+	let verseDropdown = document.getElementById("verse").replaceChildren();
 
 	bibleRequestInfo.book = dropdown.value;
 
@@ -74,16 +77,28 @@ async function chapterAmount(option) {
 		lang: langInput,
 		bibleVersion: bibleVersionInput,
 		book: dropdown.value,
-		option: option,
+		searchFor: "chapter",
 	};
 
-	let container = document.getElementById("chapter");
-	let amount = await requestBookData(requestObject);
-	createOptions(amount.AmountOfChapters, container);
+	let chapterContainer = document.getElementById("chapter");
+	let chapterAmount = await requestBookData(requestObject);
+	createOptions(chapterAmount.AmountOfChapters, chapterContainer);
+
+	requestObject.chapter = "1";
+	requestObject.searchFor = "verse";
+
+	bibleRequestInfo.chapter = "1";
+	bibleRequestInfo.startingVerse = "1";
+
+	let verseContainer = document.getElementById("verse");
+	let verseAmount = await requestBookData(requestObject);
+	createOptions(verseAmount.AmountOfVerses, verseContainer);
 }
 
-async function verseAmount(option) {
-	let dropdown = document.getElementById(option);
+async function onChapterChange() {
+	let dropdown = document.getElementById("chapter");
+
+	let verseDropdown = document.getElementById("verse").replaceChildren();
 
 	bibleRequestInfo.chapter = dropdown.value;
 
@@ -92,12 +107,29 @@ async function verseAmount(option) {
 		bibleVersion: bibleVersionInput,
 		book: bibleRequestInfo.book,
 		chapter: dropdown.value,
-		option: option,
+		searchFor: "verse",
 	};
 
-	let container = document.getElementById("verse");
+	let verseContainer = document.getElementById("verse");
 	let amount = await requestBookData(requestObject);
-	createOptions(amount.AmountOfVerses, container);
+	createOptions(amount.AmountOfVerses, verseContainer);
+
+	let endingVerseContainer = document.getElementById("endingVerse");
+	if (endingVerseContainer !== null) {
+		createOptions(amount.AmountOfVerses, endingVerseContainer);
+	}
+}
+
+function onVerseChange() {
+	let dropdown = document.getElementById("verse");
+
+	bibleRequestInfo.startingVerse = dropdown.value;
+}
+
+function onEndingVerseChange() {
+	let dropdown = document.getElementById("endingVerse");
+
+	bibleRequestInfo.endingVerse = dropdown.value;
 }
 
 async function searchRequest(requestInfo) {
@@ -111,8 +143,15 @@ async function searchRequest(requestInfo) {
 		let data = await response.json();
 
 		let resultElem = document.getElementById("searchResult");
-		resultElem.textContent = data;
-		console.log(data);
+
+		let formattedString = "";
+		for (const key in data) {
+			formattedString += `${key}. ${data[key]} \n`;
+		}
+
+		console.log(formattedString);
+
+		resultElem.textContent = formattedString;
 
 		if (!response.ok) throw error;
 	} catch (error) {
@@ -121,29 +160,33 @@ async function searchRequest(requestInfo) {
 }
 
 function handleSearch(option) {
-	let dropdown = document.getElementById(option);
-
-	bibleRequestInfo.startingVerse = dropdown.value;
-
 	searchRequest(bibleRequestInfo);
 }
-// Only fetch when search for a verse from a dropdown menu
-// searchRequest(bibleRequestInfo);
 
-async function randomVerse(metadata) {
-	try {
-		let res = await fetch("/api/randomverse", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(metadata),
-		});
+const checkbox = document.getElementById("multiple");
 
-		let data = await res.json();
-		console.log(data);
-	} catch (error) {
-		console.log("Random Verse", error.message);
+checkbox.addEventListener("change", function () {
+	let dropdown = document.getElementById("searchInput");
+
+	if (this.checked) {
+		var selectElement = document.createElement("select");
+		selectElement.name = "endingVerse";
+		selectElement.id = "endingVerse";
+		selectElement.className = "dropdown";
+		selectElement.setAttribute("onchange", "onEndingVerseChange()");
+
+		let span = document.createElement("span");
+		span.id = "dash";
+		span.textContent = " - ";
+
+		dropdown.appendChild(span);
+		dropdown.appendChild(selectElement);
+	} else {
+		document.getElementById("endingVerse").remove();
+		document.getElementById("dash").remove();
+		bibleRequestInfo.endingVerse = "";
+		console.log(bibleRequestInfo);
 	}
-}
 
-// When I press the Get Random Verse Button
-// randomVerse(metadata);
+	onChapterChange("chapter");
+});
