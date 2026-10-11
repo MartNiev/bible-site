@@ -16,8 +16,10 @@ async function randomVerse() {
 		let res = await fetch("/api/randomverse", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(metadata),
+			body: metadata,
 		});
+
+		console.log(metadata);
 
 		let data = await res.json();
 		displayVerse(data);
