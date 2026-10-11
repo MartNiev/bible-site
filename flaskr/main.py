@@ -39,15 +39,32 @@ def getRandomVerse(metadata):
     filePath = findFilePath(metadata)
     data = loadJSONFile(filePath)
 
+    lang = metadata["lang"]
+    version = metadata["bibleVersion"]
+
+    print(lang)
+
     bookListPath = getBooksList()
     bookList = loadJSONFile(bookListPath)["books"]
     
     randomNum = random.randint(0, len(bookList) - 1)
     randomBook = bookList[randomNum]
+    if lang == "en":
+        
+        chapterNum = selectRandomNum(len(data[randomBook]))
+        verseNum = selectRandomNum(len(data[randomBook][str(chapterNum)]))
+        randomVerse = data[randomBook][str(chapterNum)][str(verseNum)]
+    else:
+        filePath = os.path.join(ROOT_PATH, "data", "book_name_mapping.json")
+        mappingData = loadJSONFile(filePath)
+        translatedBook = mappingData[version][randomBook]
 
-    chapterNum = selectRandomNum(len(data[randomBook]))
-    verseNum = selectRandomNum(len(data[randomBook][str(chapterNum)]))
-    randomVerse = data[randomBook][str(chapterNum)][str(verseNum)]
+        chapterNum = selectRandomNum(len(data[translatedBook]))
+        verseNum = selectRandomNum(len(data[translatedBook][str(chapterNum)]))
+        randomVerse = data[translatedBook][str(chapterNum)][str(verseNum)]
+  
+        # load mappit
+        # Check book name
    
     return {"book": randomBook, "chapter": chapterNum,"verse": verseNum,"content": randomVerse}
 
@@ -63,6 +80,10 @@ def home():
 @app.route("/about")
 def about():
     return render_template("about.html")
+
+@app.route("/settings")
+def settings():
+    return render_template("settings.html")
 
 @app.route("/generate_verse")
 def generateVerse():
@@ -113,6 +134,9 @@ def verseOfTheDay():
     today = datetime.datetime.today().date()
     
     metadata = request.json
+
+    lang = metadata["lang"]
+    version = metadata["bibleVersion"]
     
     filepath = os.path.join(ROOT_PATH, "data", "verseOfTheDay.json")
     savedData = loadJSONFile(filepath)
@@ -125,6 +149,29 @@ def verseOfTheDay():
         saveJSONFile(verse, filepath)
         return jsonify(verse)
     else:
+        if lang != "en":
+            print("running")
+
+            book = savedVerse["book"]
+            chap = savedVerse["chapter"]
+            verse = savedVerse["verse"]
+
+            filePath = findFilePath(metadata)
+            data = loadJSONFile(filePath)
+
+            bookMappingFilePath = os.path.join(ROOT_PATH, "data", "book_name_mapping.json")
+            mappingData = loadJSONFile(bookMappingFilePath)
+            translatedBook = mappingData[version][book]
+            translatedVerse = data[translatedBook][str(chap)][str(verse)]
+
+            
+            savedData["randomVerse"]["book"] = translatedBook
+            savedData["randomVerse"]["content"] = translatedVerse
+
+            print(savedData["randomVerse"])
+            # return jsonify()
+            
+
         return jsonify(savedData)
     
 

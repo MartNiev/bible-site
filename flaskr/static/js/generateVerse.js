@@ -1,10 +1,4 @@
-let langInput = "en";
-let bibleVersionInput = "NEW KING JAMES VERSION";
-// let bookInput = "Genesis";
-// let chapterInput = "1";
-// let startingVerse = "1";
-// let endingVerse = "";
-let metadata = { lang: langInput, bibleVersion: bibleVersionInput };
+let metadata = localStorage.getItem("metadata");
 
 let generatedVerse = document.getElementById("randomVerse");
 let randomCitation = document.getElementById("randomCitation");

@@ -1,14 +1,17 @@
-let langInput = "en";
-let bibleVersionInput = "NEW KING JAMES VERSION";
-// let bookInput = "Genesis";
-// let chapterInput = "1";
-// let startingVerse = "1";
-// let endingVerse = "";
-let metadata = { lang: langInput, bibleVersion: bibleVersionInput };
+// let storedMetadata = localStorage.setItem(
+// 	"metadata",
+// 	JSON.stringify({ lang: "en", bibleVersion: "NEW KING JAMES VERSION" }),
+// );
+
+// langInput = "es";
+// bibleVersionInput = "REINA VALERA 1909";
+
+let loadMetadata = localStorage.getItem("metadata");
+console.log(loadMetadata);
 
 let bibleRequestInfo = {
-	lang: langInput,
-	bibleVersion: bibleVersionInput,
+	lang: "en",
+	bibleVersion: "NEW KING JAMES VERSION",
 	book: "",
 	chapter: "",
 	startingVerse: "",

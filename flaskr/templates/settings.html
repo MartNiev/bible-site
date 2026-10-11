@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" />
+		<link rel="fonts" href="{{url_for('static', filename='fonts/CrimsonText-Regular.ttf')}}" />
+
+		<title>Home</title>
+	</head>
+	<body>
+		<div class="backgroundContainer" data-bg="bg.webp"></div>
+
+		<nav class="nav">
+			<div class="links">
+				<a href="/">Home</a>
+				<a href="#bibleSearch">Search</a>
+				<a href="/generate_verse">Random</a>
+				<a href="/about">About</a>
+				<a href="/settings">Settings</a>
+			</div>
+		</nav>
+
+		<section class="mainSection">
+			<div class="settings">
+				<header class="header"><h3>Settings</h3></header>
+				<div class="settingsOptions">
+					<div>
+						<select name="language" id="language">
+							<option value="en">en</option>
+							<option value="es">es</option>
+						</select>
+					</div>
+					<div>
+						<select name="language" id="language">
+							<option value="NEW KING JAMES VERSION">NEW KING JAMES VERSION</option>
+							<option value="REINA VALERA 1909">REINA VALERA 1909</option>
+						</select>
+					</div>
+				</div>
+				<button type="type" onclick="saveSettings()">Save</button>
+			</div>
+		</section>
+		<script src="{{url_for('static', filename='js/settings.js')}}"></script>
+	</body>
+</html>
