@@ -7,7 +7,6 @@
 // bibleVersionInput = "REINA VALERA 1909";
 
 let loadMetadata = localStorage.getItem("metadata");
-console.log(loadMetadata);
 
 let bibleRequestInfo = {
 	lang: "en",

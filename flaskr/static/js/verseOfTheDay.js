@@ -2,10 +2,8 @@ let verseElement = document.getElementById("verseOftheDay");
 let citationElement = document.getElementById("citation");
 let cachedVerse = JSON.parse(localStorage.getItem("verse"));
 
-let metadata = JSON.parse(localStorage.getItem("metadata"));
-
-// langInput = "es";
-// bibleVersionInput = "REINA VALERA 1909";
+let langAndVersionPref = JSON.parse(localStorage.getItem("metadata"));
+console.log(langAndVersionPref);
 
 function displayVerse(data) {
 	verseElement.textContent = `"${data.randomVerse.content}"`;
@@ -28,8 +26,8 @@ async function verseOfTheDay(metadata) {
 
 		if (cachedVerse !== JSON.stringify(data)) {
 			localStorage.setItem("verse", JSON.stringify(data));
+			displayVerse(data);
 		}
-		displayVerse(data);
 	} catch (error) {
 		console.log("Verse of the Day:", error);
 	}
@@ -39,10 +37,7 @@ let date = new Date();
 let formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
 if (!cachedVerse || cachedVerse.dateChosen !== formattedDate) {
-	console.log(metadata);
-	verseOfTheDay(metadata);
+	verseOfTheDay(langAndVersionPref);
 } else {
 	displayVerse(cachedVerse);
 }
-
-verseOfTheDay(metadata);

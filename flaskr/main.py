@@ -144,13 +144,12 @@ def verseOfTheDay():
     savedVerse = savedData["randomVerse"]
 
     if savedDate != str(today):
-        randomVerse = getRandomVerse(metadata)
+        randomVerse = getRandomVerse({'lang': 'en', 'bibleVersion': 'NEW KING JAMES VERSION'})
         verse = {"dateChosen": str(today), "randomVerse": randomVerse}
         saveJSONFile(verse, filepath)
         return jsonify(verse)
     else:
         if lang != "en":
-            print("running")
 
             book = savedVerse["book"]
             chap = savedVerse["chapter"]
@@ -167,10 +166,7 @@ def verseOfTheDay():
             
             savedData["randomVerse"]["book"] = translatedBook
             savedData["randomVerse"]["content"] = translatedVerse
-
-            print(savedData["randomVerse"])
-            # return jsonify()
-            
+           
 
         return jsonify(savedData)
     
